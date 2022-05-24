@@ -1,5 +1,7 @@
+from curses.ascii import US
 from flask import Flask, render_template
 from .models import DB, User, Tweet
+from .twitter import add_or_update_user
 
 def create_app():
     app = Flask(__name__)
@@ -13,7 +15,8 @@ def create_app():
 
     @app.route("/")
     def root():
-        return render_template('base.html', title='Home')
+        users = User.query.all()
+        return render_template('base.html', title='Home', users=users)
 
     @app.route("/test")
     def test():
@@ -43,5 +46,12 @@ def create_app():
         <a href='/reset'>Go to reset</a>
         <a href='/populate'>Go to populate</a>
         """
+    
+    @app.route('/update')
+    def update():
+        usernames = []
+        for user in User.query.all():
+            add_or_update_user(user.username)
+
     
     return app

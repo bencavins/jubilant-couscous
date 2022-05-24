@@ -18,6 +18,9 @@
     </nav>
     <article class="flex two" style="padding: 3em 1em;">
       {% block content %}
+      {% for user in users %}
+      <p>{{ user.username }}</p>
+      {% endfor %}
       {% endblock %}
     </article>
     <!-- <script src="https://cdn.jsdelivr.net/npm/umbrellajs"/> -->
